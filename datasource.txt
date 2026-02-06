@@ -1,0 +1,10 @@
+/subsystem=datasources/data-source=MySQLDS:add(
+    jndi-name=java:/jdbc/MySQLDS,
+    driver-name=mysql,
+    connection-url="jdbc:mysql://localhost:3307/javaee_db?useSSL=false&allowPublicKeyRetrieval=true",
+    user-name=javaee,
+    password=javaee,
+    min-pool-size=5,
+    max-pool-size=20,
+    enabled=true
+)
