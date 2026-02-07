@@ -1,39 +1,77 @@
 package org.example.service;
 
 import org.example.model.UserModel;
+import org.example.repository.UserRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
+import java.util.logging.Logger;
 
-@ApplicationScoped
+@Stateless
 public class UserService {
 
-    @PersistenceContext
-    private EntityManager em;
+    @Inject
+    private UserRepository userRepository;
 
-    private static final String QUERY_FIND_ALL = "SELECT u FROM UserModel u";
+    private static final Logger LOGGER = Logger.getLogger(UserService.class.getName());
 
-    @Transactional
-    public void createUser(UserModel user){
-        em.persist(user);
+    public UserModel create(UserModel user){
+        LOGGER.info("Saving user " + user.getName());
+        this.userRepository.save(user);
+        LOGGER.info("User saved!!");
+        return user;
     }
 
-    public UserModel findByUserId(Long id) {
-        return em.find(UserModel.class, id);
-    }
+    public UserModel updateUser(UserModel user, Long id) {
+        Optional<UserModel>  userModelOptional = this.userRepository.findById(id);
 
-    public List<UserModel> findAllUsers () {
-        return em.createQuery(QUERY_FIND_ALL, UserModel.class).getResultList();
-    }
-
-    @Transactional
-    public void deleteUser(Long id) {
-        UserModel user = findByUserId(id);
-        if (user != null) {
-            em.remove(user);
+        if (!userModelOptional.isPresent()) {
+            throw new RuntimeException("User with id " + id + " not found ");
         }
+
+
+        LOGGER.info("Updating user with id " + id);
+        UserModel userFound = userModelOptional.get();
+        userFound.setName(user.getName());
+        userFound.setEmail(user.getEmail());
+
+        this.userRepository.update(userFound);
+        LOGGER.info("User updated!!");
+        return userFound;
     }
+
+
+    public List<UserModel> findAll() {
+        return this.userRepository.findAll();
+    }
+
+    public UserModel findById(Long id) {
+        Optional<UserModel>  userModelOptional = this.userRepository.findById(id);
+
+        if (!userModelOptional.isPresent()) {
+            throw new RuntimeException("User with id " + id + " not found ");
+        }
+
+        return userModelOptional.get();
+    }
+
+    public UserModel findByEmail(String email) {
+        Optional<UserModel> userModelOptional = this.userRepository.findByEmail(email);
+
+        if(!userModelOptional.isPresent()){
+            throw new RuntimeException("User with email " + email + " not found ");
+        }
+
+        return userModelOptional.get();
+    }
+
+
+    public void delete(Long id){
+        this.userRepository.delete(id);
+    }
+
+
+
 }

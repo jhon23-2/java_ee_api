@@ -1,6 +1,11 @@
 package org.example.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "users")
@@ -10,11 +15,34 @@ public class UserModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "name can't be null")
+    @NotBlank(message = "name can't be blank")
+    @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters")
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
+    @NotNull(message = "email can't be null")
+    @NotBlank(message = "email can't be blank")
+    @Size(max = 100, message = "Email cannot exceed 100 characters")
+    @Column(nullable = false, unique = true, length = 100)
     private String email;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false, updatable = true)
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 
 
     // Getters and Setters

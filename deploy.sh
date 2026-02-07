@@ -15,7 +15,6 @@ echo -e "${GREEN}========================================${NC}"
 # Configuration
 PROJECT_NAME="java-EE-1.0-SNAPSHOT"
 WAR_FILE="./target/${PROJECT_NAME}.war"
-WILDFLY_HOME="/Applications/wildfly/wildfly-24.0.1.Final"
 DEPLOYMENTS_DIR="${WILDFLY_HOME}/standalone/deployments"
 PORT_OFFSET=10
 
