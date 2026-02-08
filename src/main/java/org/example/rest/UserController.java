@@ -62,8 +62,7 @@ public class UserController {
     }
 
     @GET
-    @Path("/{email}")
-    public Response findEmail(@PathParam("email") String email) {
+    public Response findEmail(@QueryParam("email") String email) {
         UserModel userModel = this.userService.findByEmail(email);
         return Response.status(Response.Status.OK)
                 .entity(userModel)
@@ -81,7 +80,8 @@ public class UserController {
 
 
     @DELETE
-    public Response delete(Long id) {
+    @Path("/{id}")
+    public Response delete( @PathParam("id") Long id) {
         this.userService.delete(id);
         return Response.status(Response.Status.NO_CONTENT)
                 .build();
