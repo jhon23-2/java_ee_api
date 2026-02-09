@@ -1,5 +1,7 @@
 package org.example.rest;
 
+import org.example.jms.FirstQueue;
+import org.example.model.MessageModel;
 import org.example.model.UserModel;
 import org.example.service.UserService;
 
@@ -22,6 +24,7 @@ public class UserController {
 
     @Inject
     private UserService userService;
+
 
     @Context
     private UriInfo uriInfo;
