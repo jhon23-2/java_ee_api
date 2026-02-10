@@ -15,11 +15,16 @@ public class UserService {
     @Inject
     private UserRepository userRepository;
 
+    @Inject
+    private UserProducer userProducer;
+
     private static final Logger LOGGER = Logger.getLogger(UserService.class.getName());
 
     public UserModel create(UserModel user){
         LOGGER.info("Saving user " + user.getName());
         this.userRepository.save(user);
+        this.userProducer.sendMessageWhenUserCreated("New user has beed created, Name: " + user.getName()
+                + " Email: " + user.getEmail());
         LOGGER.info("User saved!!");
         return user;
     }

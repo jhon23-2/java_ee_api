@@ -56,7 +56,7 @@ fi
 
 echo -e "\n${YELLOW}[5/5] Starting WildFly...${NC}"
 cd ${WILDFLY_HOME}/bin
-./standalone.sh -Djboss.socket.binding.port-offset=${PORT_OFFSET}
+./standalone.sh -c standalone-full.xml -Djboss.socket.binding.port-offset=${PORT_OFFSET}
 
 
 echo -e "\n${GREEN}========================================${NC}"

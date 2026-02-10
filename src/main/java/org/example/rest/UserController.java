@@ -1,7 +1,5 @@
 package org.example.rest;
 
-import org.example.jms.FirstQueue;
-import org.example.model.MessageModel;
 import org.example.model.UserModel;
 import org.example.service.UserService;
 
@@ -65,7 +63,8 @@ public class UserController {
     }
 
     @GET
-    public Response findEmail(@QueryParam("email") String email) {
+    @Path("/email/{email}")
+    public Response findEmail(@PathParam("email") String email) {
         UserModel userModel = this.userService.findByEmail(email);
         return Response.status(Response.Status.OK)
                 .entity(userModel)
