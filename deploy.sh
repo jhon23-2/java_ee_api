@@ -16,7 +16,6 @@ echo -e "${GREEN}========================================${NC}"
 PROJECT_NAME="java-EE-1.0-SNAPSHOT"
 WAR_FILE="./target/${PROJECT_NAME}.war"
 DEPLOYMENTS_DIR="${WILDFLY_HOME}/standalone/deployments"
-PORT_OFFSET=10
 
 # Step 1: Stop WildFly server if it is running
 
@@ -56,7 +55,7 @@ fi
 
 echo -e "\n${YELLOW}[5/5] Starting WildFly...${NC}"
 cd ${WILDFLY_HOME}/bin
-./standalone.sh -c standalone-full.xml -Djboss.socket.binding.port-offset=${PORT_OFFSET}
+./standalone.sh -c standalone-full.xml
 
 
 echo -e "\n${GREEN}========================================${NC}"
