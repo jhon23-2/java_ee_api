@@ -12,12 +12,6 @@ pipeline {
                 checkout scm
                 sh 'mvn -B clean install'
             }
-            post {
-                always {
-                    junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
-                    archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
-                }
-            }
         }
     }
 
